@@ -24,10 +24,18 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    //events - jog 
+    //events - jog
     @IBAction func btnAddTask_Click(sender: UIButton){
-        
-        taskMgr.addTask(name: txtTask.text!, desc: txtDesc.text!);
+
+        let name = txtTask.text?.trimmingCharacters(in: .whitespaces) ?? ""
+        let desc = txtDesc.text?.trimmingCharacters(in: .whitespaces) ?? ""
+        guard !name.isEmpty else {
+            let alert = UIAlertController(title: "Task name required", message: "Give the task a name before adding it.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+            return
+        }
+        taskMgr.addTask(name: name, desc: desc);
         self.view.endEditing(true)
         txtTask.text = ""
         txtDesc.text = ""
