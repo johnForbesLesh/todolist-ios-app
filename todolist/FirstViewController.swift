@@ -28,7 +28,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     //UITableViewDelete
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         taskMgr.tasks.remove(at: indexPath.row)
         tblTasks.reloadData();
@@ -40,7 +40,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "test")
+        let cell: UITableViewCell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "test")
         
         cell.textLabel?.text = taskMgr.tasks[indexPath.row].name
         cell.detailTextLabel?.text = taskMgr.tasks[indexPath.row].desc
