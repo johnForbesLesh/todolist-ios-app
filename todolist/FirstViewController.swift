@@ -25,6 +25,32 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //returning to view
     override func viewWillAppear(_ animated: Bool) {
         tblTasks.reloadData();
+        refreshEmptyState()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let defaults = UserDefaults.standard
+        if !defaults.bool(forKey: "hasSeenOnboarding") {
+            // ponytail: flag set on show, not on dismiss — swipe-dismissing the sheet counts as seen
+            defaults.set(true, forKey: "hasSeenOnboarding")
+            let onboarding = OnboardingViewController()
+            onboarding.modalPresentationStyle = .fullScreen
+            present(onboarding, animated: true)
+        }
+    }
+
+    private func refreshEmptyState() {
+        if taskMgr.tasks.isEmpty {
+            let label = UILabel()
+            label.text = "No tasks yet.\nTap ADD NEW to create your first task."
+            label.textColor = .secondaryLabel
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            tblTasks.backgroundView = label
+        } else {
+            tblTasks.backgroundView = nil
+        }
     }
     
     //UITableViewDelete
@@ -32,6 +58,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         taskMgr.tasks.remove(at: indexPath.row)
         tblTasks.reloadData();
+        refreshEmptyState()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section : Int) -> Int{
